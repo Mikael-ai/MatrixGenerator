@@ -1,4 +1,6 @@
 #include "generatorutils.h"
+#include "matrixdata.h"
+
 #include <QRandomGenerator>
 #include <QElapsedTimer>
 #include <QDataStream>
@@ -6,8 +8,7 @@
 
 GeneratorUtils *GeneratorUtils::p_generatorInstance = Q_NULLPTR;
 
-GeneratorUtils::GeneratorUtils(QObject *parent)
-    : QObject{parent}
+GeneratorUtils::GeneratorUtils()
 {
     generationNumber = 0;
 }
@@ -39,7 +40,13 @@ MatrixData GeneratorUtils::generateMatrix(const unsigned int rows,
     unsigned int generationTime = timer.elapsed();
     timer.invalidate();
 
-    return MatrixData { generationNumber++, generationTime, rows, cols, matrix };
+    return MatrixData {
+        generationNumber++,
+        generationTime,
+        rows,
+        cols,
+        matrix
+    };
 }
 
 void GeneratorUtils::writeMatrixDataToFile(const MatrixData &matrix,
